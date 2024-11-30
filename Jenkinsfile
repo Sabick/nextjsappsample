@@ -1,30 +1,27 @@
 pipeline {
     agent any
-     stages {
-        stage('Build') { 
-            steps { 
-                echo "Build stage"
-                sh 'npm install'
-                sh 'npm run build'
-                sh 'mkdir -p /Users/jithinscaria/Documents/Workshop/cloudframeworks/sample_apps/next-start-build'
-                sh 'rm -r /Users/jithinscaria/Documents/Workshop/cloudframeworks/sample_apps/next-start-build/*'
-                sh 'cp -r public .next package* /Users/jithinscaria/Documents/Workshop/cloudframeworks/sample_apps/next-start-build/'
-                sh 'cd /Users/jithinscaria/Documents/Workshop/cloudframeworks/sample_apps/next-start-build/ && npm install --only=production'
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Build stage'
+                bat 'npm install'
+                bat 'npm run build'
             }
         }
-        stage('Test'){
+        stage('Test') {
             steps {
-                echo "Build Test"
-                sh 'pwd && npm run lint'
+                echo 'Test the code'
+                bat 'npm run lint'
             }
         }
         stage('Deploy') {
             steps {
-                echo "Build Deploy"
-                sh 'npm install -g pm2'
-                sh 'pm2 stop cloudframeworks || echo "Not running"'
-                sh '''cd /Users/jithinscaria/Documents/Workshop/cloudframeworks/sample_apps/next-start-build/ && 
-                pm2 start npm --name cloudframeworks -- start '''
+                echo 'Prepare the deployment release'
+                bat 'npm ci --omit=dev'
+                bat "docker build -t myapp-next:${env.BUILD_ID} ."
+                echo 'Deploy the application to docker.'
+                bat "docker run -d --name this_is_my_container -p 3006:3005 myapp-next:${env.BUILD_ID} "
             }
         }
     }
