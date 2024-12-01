@@ -21,14 +21,16 @@ pipeline {
                 bat 'npm ci --omit=dev'
                 bat "docker build -t myapp-next:${env.BUILD_ID} ."
                 echo 'Deploy the application to docker.'
-                try {
-                    bat 'docker container stop this_is_my_container'
-                    bat 'docker container rm this_is_my_container'
-                } catch (e) {
-                    echo 'Cotainer not running'
+                script {
+                    try {
+                        bat 'docker container stop this_is_my_container'
+                        bat 'docker container rm this_is_my_container'
+                    } catch (e) {
+                        echo 'Cotainer not running'
+                    }
                 }
                 bat "docker run -d --name this_is_my_container -p 3006:3005 myapp-next:${env.BUILD_ID} "
+                }
             }
         }
     }
-}
