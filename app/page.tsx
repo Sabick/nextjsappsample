@@ -14,7 +14,7 @@ export default function Home() {
         />
         <div className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)] mx-auto">
           <p className="mb-2 mx-auto text-xl">
-            Welcome C! 
+            Welcome A! 
           </p>
           <p></p>
         </div>
