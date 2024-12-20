@@ -29,7 +29,7 @@ pipeline {
                         echo 'Cotainer not running'
                     }
                 }
-                bat "docker run -d --name this_is_my_container -p 3006:3005 myapp-next:${env.BUILD_ID} "
+                bat "docker run -d --name this_is_my_container -p 3008:3005 myapp-next:${env.BUILD_ID} "
                 }
             }
         }
