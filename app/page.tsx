@@ -16,7 +16,7 @@ export default function Home() {
           <p className="mb-2 mx-auto text-xl">
             Welcome to Cloudframeroks! Team.
             welcome to th eworld.
-            <br>Happy to see</br>
+           
           </p>
           <p></p>
         </div>
